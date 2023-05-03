@@ -55,5 +55,15 @@ describe("LinkValidator", () => {
             const result = linkValidator.validate("invalid link", "default");
             expect(result).toBe(false);
         });
+
+        it("should call the validate method with the correct parameters", () => {
+            const spy = jest.spyOn(linkValidator, "validate");
+            linkValidator.validate("https://discord.gg/123456", "discord");
+            expect(spy).toHaveBeenCalledWith(
+                "https://discord.gg/123456",
+                "discord",
+            );
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
     });
 });

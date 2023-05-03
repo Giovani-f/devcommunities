@@ -1,7 +1,7 @@
-import { provideSingleton } from "@providers/bindingType/provide-singleton";
+import { provide } from "inversify-binding-decorators";
 import { ILinkValidator } from "./link-validator.interface";
 
-@provideSingleton(LinkValidator)
+@provide(LinkValidator)
 class LinkValidator implements ILinkValidator {
     public validate(url: string, provider: string): boolean {
         const providerStrategy = {

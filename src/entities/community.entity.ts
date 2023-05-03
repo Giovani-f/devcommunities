@@ -22,7 +22,6 @@ class Community implements IEntity {
         readonly name: string,
         readonly description: string,
         readonly image: string,
-        readonly creator: string,
         readonly links: CommunityLink[],
         readonly tags: string[],
     ) {

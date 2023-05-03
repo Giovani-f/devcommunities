@@ -1,5 +1,6 @@
 import { AppContainer } from "@expressots/core";
 import { AppModule } from "@useCases/app/app.module";
+import { CommunityModule } from "@useCases/community/community.module";
 import { PingModule } from "@useCases/ping/ping.module";
 import { UserModule } from "@useCases/user/user.module";
 
@@ -10,6 +11,7 @@ const container = appContainer.create([
     AppModule,
     PingModule,
     UserModule,
+    CommunityModule,
 ]);
 
 export { container };
