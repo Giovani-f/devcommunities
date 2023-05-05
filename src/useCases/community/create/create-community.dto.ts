@@ -1,11 +1,9 @@
+import { CommunityLink } from "@entities/community.entity";
+
 interface ICreateCommunityRequestDTO {
     name: string;
     description: string;
-    image: string;
-    links: {
-        provider: string;
-        link: string;
-    }[];
+    links: CommunityLink[];
     tags: string[];
 }
 

@@ -7,16 +7,19 @@ import { ILinkValidator } from "@providers/link-validator/link-validator.interfa
 import { AppError, Report, StatusCode } from "@expressots/core";
 import { inject } from "inversify";
 import { LinkValidator } from "@providers/link-validator/link-validator.provider";
+import { Community } from "@entities/community.entity";
+import { CommunityRepository } from "@repositories/community/community.repository";
 
 @provide(CreateCommunityUseCase)
 class CreateCommunityUseCase {
     constructor(
         @inject(LinkValidator)
         private linkValidator: ILinkValidator,
+        private communityRepository: CommunityRepository,
     ) {}
     execute(
         data: ICreateCommunityRequestDTO,
-    ): ICreateCommunityResponseDTO | AppError {
+    ): ICreateCommunityResponseDTO | null {
         try {
             for (const community of data.links) {
                 if (
@@ -28,16 +31,26 @@ class CreateCommunityUseCase {
                     Report.Error(
                         new AppError(
                             StatusCode.BadRequest,
-                            `Invalid ${community.provider} link}`,
+                            `Invalid ${community.provider} link`,
                         ),
                     );
                 }
             }
 
-            return {
-                id: "123",
-                name: "Test",
-            };
+            const community: Community | null = this.communityRepository.create(
+                new Community(
+                    data.name,
+                    data.description,
+                    data.links,
+                    data.tags,
+                ),
+            );
+
+            if (!community) {
+                return null;
+            }
+
+            return community;
         } catch (error: any) {
             throw error;
         }

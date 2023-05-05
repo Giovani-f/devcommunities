@@ -1,3 +1,13 @@
+# DevCommunities - Centralizando Comunidades de Desenvolvedores
+DevCommunities é uma plataforma online que tem como objetivo centralizar comunidades de desenvolvedores em um único lugar. Com essa plataforma, é possível pesquisar por área, tecnologia e outros filtros para encontrar a comunidade de desenvolvedores que mais se adequa aos seus interesses.
+
+## Funcionalidades
+Cadastro de comunidades de desenvolvedores;
+Pesquisa por área de atuação;
+Pesquisa por tecnologia;
+
+## Tecnologias utilizadas
+
 <p align="center">
   <a href="https://expresso-ts.com/" target="blank"><img src="https://github.com/expressots/expressots/blob/main/media/expressots.png" width="120" alt="Expresso TS Logo" /></a>
 </p>
@@ -5,8 +15,6 @@
 # Expresso TS
 
 A Typescript + [Node.js]("https://nodejs.org/en/") lightweight framework for quick building scalable, easy to read and maintain, server-side applications 🚀
-
-## Philosophy
 
 Expresso TS is a framework designed to make the lives of the developers easier by providing a structure for building server-side applications that is clear to read, maintain and scale. The philosophy is centered around the idea that developers should not have to waste time on repetitive tasks such as setting up a logging system, authentication, error handling, database connection, and organizing the project for better maintainability.
 

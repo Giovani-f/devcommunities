@@ -6,7 +6,7 @@ const jestConfig: JestConfigWithTsJest = {
     verbose: true,
     automock: false,
     testMatch: ["**/*.test.ts", "**/*.spec.ts"],
-    coverageDirectory: "./coverage",
+    coverageDirectory: "coverage",
     coverageReporters: ["text", "html", "json"],
     moduleNameMapper: {
         "^@entities/(.*)$": "<rootDir>/src/entities/$1",

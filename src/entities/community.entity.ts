@@ -9,7 +9,7 @@ enum CommunityProvider {
     slack = "slack",
 }
 
-type CommunityLink = {
+export type CommunityLink = {
     provider: CommunityProvider;
     link: string;
 };
@@ -21,7 +21,6 @@ class Community implements IEntity {
     constructor(
         readonly name: string,
         readonly description: string,
-        readonly image: string,
         readonly links: CommunityLink[],
         readonly tags: string[],
     ) {
