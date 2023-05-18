@@ -2,7 +2,7 @@ import { CommunityLink } from "@entities/community.entity";
 
 interface ICreateCommunityRequestDTO {
     name: string;
-    description: string;
+    description: string | null;
     links: CommunityLink[];
     tags: string[];
 }

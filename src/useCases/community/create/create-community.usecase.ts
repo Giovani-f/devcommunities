@@ -8,6 +8,7 @@ import { AppError, Report, StatusCode } from "@expressots/core";
 import { inject } from "inversify";
 import { LinkValidator } from "@providers/link-validator/link-validator.provider";
 import { Community } from "@entities/community.entity";
+import { ICommunityRepository } from "@repositories/community/community-repository.interface";
 import { CommunityRepository } from "@repositories/community/community.repository";
 
 @provide(CreateCommunityUseCase)
@@ -15,16 +16,17 @@ class CreateCommunityUseCase {
     constructor(
         @inject(LinkValidator)
         private linkValidator: ILinkValidator,
-        private communityRepository: CommunityRepository,
+        @inject(CommunityRepository)
+        private communityRepository: ICommunityRepository,
     ) {}
-    execute(
+    async execute(
         data: ICreateCommunityRequestDTO,
-    ): ICreateCommunityResponseDTO | null {
+    ): Promise<ICreateCommunityResponseDTO | null> {
         try {
             for (const community of data.links) {
                 if (
                     !this.linkValidator.validate(
-                        community.link,
+                        community.url,
                         community.provider,
                     )
                 ) {
@@ -37,20 +39,24 @@ class CreateCommunityUseCase {
                 }
             }
 
-            const community: Community | null = this.communityRepository.create(
-                new Community(
-                    data.name,
-                    data.description,
-                    data.links,
-                    data.tags,
-                ),
-            );
+            const community: Community | null =
+                await this.communityRepository.create(
+                    new Community(
+                        data.name,
+                        data.description,
+                        data.links,
+                        data.tags,
+                    ),
+                );
 
             if (!community) {
                 return null;
             }
 
-            return community;
+            return {
+                id: community.id,
+                name: community.name,
+            };
         } catch (error: any) {
             throw error;
         }

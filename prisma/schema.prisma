@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Community {
+  id          String   @id @default(cuid()) @map("_id")
+  name        String
+  description String?
+  links       Link[]
+  tags        String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Link {
+  id          String     @id @default(cuid()) @map("_id")
+  provider    String
+  url         String
+  community   Community? @relation(fields: [communityId], references: [id])
+  communityId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

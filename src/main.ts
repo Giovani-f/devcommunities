@@ -17,4 +17,8 @@ async function Bootstrap() {
     );
 }
 
-Bootstrap();
+try {
+    Bootstrap();
+} catch (error) {
+    console.log("error", error);
+}

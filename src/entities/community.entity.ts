@@ -1,26 +1,21 @@
 import { provide } from "inversify-binding-decorators";
 import { randomUUID } from "node:crypto";
-import { IEntity } from "./base.entity";
 
-enum CommunityProvider {
-    discord = "discord",
-    telegram = "telegram",
-    whatsapp = "whatsapp",
-    slack = "slack",
-}
+type CommunityProvider = "discord" | "telegram" | "whatsapp" | "slack";
 
 export type CommunityLink = {
+    id?: string;
     provider: CommunityProvider;
-    link: string;
+    url: string;
 };
 
 @provide(Community)
-class Community implements IEntity {
+class Community {
     public id: string;
 
     constructor(
         readonly name: string,
-        readonly description: string,
+        readonly description: string | null,
         readonly links: CommunityLink[],
         readonly tags: string[],
     ) {

@@ -1,8 +1,8 @@
 import { Community } from "@entities/community.entity";
-import { IBaseRepository } from "@repositories/base-repository.interface";
+import { ICreateCommunityRequestDTO } from "@useCases/community/create/create-community.dto";
 
-interface ICommunityRepository extends IBaseRepository<Community> {
-    findByName(name: string): Community | null;
+interface ICommunityRepository {
+    create(community: ICreateCommunityRequestDTO): Promise<Community | null>;
 }
 
 export { ICommunityRepository };

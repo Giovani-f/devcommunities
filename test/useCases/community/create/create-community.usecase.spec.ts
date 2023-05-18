@@ -2,31 +2,49 @@ import "reflect-metadata";
 import { ILinkValidator } from "@providers/link-validator/link-validator.interface";
 import { mock, MockProxy } from "jest-mock-extended";
 import { CreateCommunityUseCase } from "@useCases/community/create/create-community.usecase";
+import { ICommunityRepository } from "@repositories/community/community-repository.interface";
+import { ICreateCommunityRequestDTO } from "@useCases/community/create/create-community.dto";
 
 describe("CreateCommunityUseCase", () => {
     let sut: CreateCommunityUseCase;
     const linkValidatorProvider: MockProxy<ILinkValidator> = mock();
     linkValidatorProvider.validate.mockReturnValue(true);
-
-    beforeEach(() => {
-        sut = new CreateCommunityUseCase(linkValidatorProvider);
+    const communityRepositoryMock: MockProxy<ICommunityRepository> = mock();
+    communityRepositoryMock.create.mockResolvedValue({
+        id: "123",
+        name: "Test",
+        description: "Test",
+        links: [
+            {
+                id: "123",
+                url: "https://discord.gg/",
+                provider: "discord",
+            },
+        ],
+        tags: [],
     });
 
-    it("should create a community", () => {
-        const data = {
+    beforeEach(() => {
+        sut = new CreateCommunityUseCase(
+            linkValidatorProvider,
+            communityRepositoryMock,
+        );
+    });
+
+    it("should create a community", async () => {
+        const data: ICreateCommunityRequestDTO = {
             name: "Test",
             description: "Test",
-            image: "https://test.com",
             tags: ["test"],
             links: [
                 {
-                    link: "https://discord.gg/",
+                    url: "https://discord.gg/",
                     provider: "discord",
                 },
             ],
         };
 
-        const result = sut.execute(data);
+        const result = await sut.execute(data);
 
         expect(result).toEqual({
             id: "123",
@@ -34,15 +52,14 @@ describe("CreateCommunityUseCase", () => {
         });
     });
 
-    it("should throw an error if the link is invalid", () => {
-        const data = {
+    it("should throw an error if the link is invalid", async () => {
+        const data: ICreateCommunityRequestDTO = {
             name: "Test",
             description: "Test",
-            image: "https://test.com",
             tags: ["test"],
             links: [
                 {
-                    link: "https://discord.gg/",
+                    url: "https://discord.gg/",
                     provider: "discord",
                 },
             ],
@@ -50,6 +67,8 @@ describe("CreateCommunityUseCase", () => {
 
         linkValidatorProvider.validate.mockReturnValue(false);
 
-        expect(() => sut.execute(data)).toThrowError("Invalid discord link");
+        await expect(() => sut.execute(data)).rejects.toThrowError(
+            "Invalid discord link",
+        );
     });
 });

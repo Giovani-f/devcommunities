@@ -20,10 +20,9 @@ class CreateCommunityController extends BaseController {
     @httpPost("/")
     execute(
         @requestBody() data: ICreateCommunityRequestDTO,
-        @response()
-        res: ICreateCommunityResponseDTO,
-    ): ICreateCommunityRequestDTO {
-        return this.callUseCase(
+        @response() res: ICreateCommunityResponseDTO,
+    ): any {
+        return this.callUseCaseAsync(
             this.createCommunityUseCase.execute(data),
             res,
             StatusCode.Created,
